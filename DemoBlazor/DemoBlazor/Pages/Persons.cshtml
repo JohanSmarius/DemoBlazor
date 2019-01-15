@@ -4,44 +4,49 @@
 
 @inject IDomainService PersonService
 
-<h1>@WelcomeMessage</h1>
+
+<NavLink class="nav-link" href="/">To Home</NavLink>
+
+    <h1>@WelcomeMessage</h1>
 
 
-@foreach (var person in AvailablePersons)
-{
-    <PersonDetail Person="person" ref="PersonComponent"></PersonDetail>
-    @*<div class="container">
-        <div class="row">
+    @foreach (var person in AvailablePersons)
+    {
+        <PersonDetail Person="person" ref="PersonComponent"></PersonDetail>
+        @*<div class="container">
+                <div class="row">
 
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@person.Picture" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@person.Name</h5>
-                    <p class="card-text">@($"{person.Email} {person.PhoneNumber}")</p>
-                    <button class="btn btn-success" onclick="@(() => SelectUser(person))">Select</button>
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="@person.Picture" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@person.Name</h5>
+                            <p class="card-text">@($"{person.Email} {person.PhoneNumber}")</p>
+                            <button class="btn btn-success" onclick="@(() => SelectUser(person))">Select</button>
+                        </div>
+                    </div>
                 </div>
+            </div>*@
+    }
+
+
+    @if (CurrentUser != null)
+    {
+        <div class="container">
+            <div class="row">
+                <label for="name">Name: </label>
+                <input id="name" bind="@CurrentUser.Name" />
             </div>
+
         </div>
-    </div>*@
-}
+    }
 
-
-@if (CurrentUser != null)
-{
-    <div class="container">
-        <div class="row">
-            <label for="name">Name: </label>
-            <input id="name" bind="@CurrentUser.Name"/>
-        </div>
-
-    </div>
-}
-
-<button class="btn btn-primary" onclick="@LoadPersons">Load persons</button>
+    <button class="btn btn-primary" onclick="@LoadPersons">Load persons</button>
 
 
 
-@functions {
+
+
+    @functions {
 
     string WelcomeMessage = "Welcome DotNED Saturday From Blazor!";
 
@@ -93,4 +98,4 @@
         };
     }
 
-}
+    }

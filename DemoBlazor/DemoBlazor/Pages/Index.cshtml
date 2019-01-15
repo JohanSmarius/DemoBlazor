@@ -1,7 +1,22 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Blazor.Services
+
+@inject IUriHelper urlHelper
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<button class="btn btn-success" onclick="@ToPersons">Show me the persons</button>
+
+@functions
+{
+
+    void ToPersons()
+    {
+        urlHelper.NavigateTo("/persons");
+    }
+
+}
