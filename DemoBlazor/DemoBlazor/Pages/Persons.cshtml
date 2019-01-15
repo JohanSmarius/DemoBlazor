@@ -2,7 +2,7 @@
 @using Core.Domain
 @using DemoBlazor.Services
 
-@*@inject DomainService PersonService*@
+@inject IDomainService PersonService
 
 <h1>@WelcomeMessage</h1>
 
@@ -53,33 +53,37 @@
     //    Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
     //};
 
-    List<User> AvailablePersons = new List<User>();
+    IReadOnlyList<User> AvailablePersons = new List<User>();
 
     void LoadPersons()
     {
-        AvailablePersons.Clear();
-
-        AvailablePersons.Add(new User()
-        {
-            Name = "Scott Hanselman",
-            Email = "scott@microsoft.com",
-            PhoneNumber = "12345468",
-            Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
-        });
-
-        AvailablePersons.Add(new User()
-        {
-            Name = "Scott Guthrie",
-            Email = "scott@microsoft.com",
-            PhoneNumber = "12345468",
-            Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
-        });
-
+        PersonService.LoadPersons();
+        AvailablePersons = PersonService.AvailablePersons;
     }
 
+    //    AvailablePersons.Clear();
+
+    //    AvailablePersons.Add(new User()
+    //    {
+    //        Name = "Scott Hanselman",
+    //        Email = "scott@microsoft.com",
+    //        PhoneNumber = "12345468",
+    //        Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+    //    });
+
+    //    AvailablePersons.Add(new User()
+    //    {
+    //        Name = "Scott Guthrie",
+    //        Email = "scott@microsoft.com",
+    //        PhoneNumber = "12345468",
+    //        Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
+    //    });
+
+    //}
+
     PersonDetail PersonComponent;
-        
-    protected override void OnAfterRender()    
+
+    protected override void OnAfterRender()
     {
         PersonComponent.PersonSelected += (User person) =>
         {
