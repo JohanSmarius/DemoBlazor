@@ -1,13 +1,16 @@
 ﻿@page "/persons"
 @using Core.Domain
+@using DemoBlazor.Services
 
+@*@inject DomainService PersonService*@
 
 <h1>@WelcomeMessage</h1>
 
 
 @foreach (var person in AvailablePersons)
 {
-    <div class="container">
+    <PersonDetail Person="person" ref="PersonComponent"></PersonDetail>
+    @*<div class="container">
         <div class="row">
 
             <div class="card" style="width: 18rem;">
@@ -19,7 +22,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 }
 
 
@@ -66,7 +69,7 @@
 
         AvailablePersons.Add(new User()
         {
-            Name = "Scott Gutthrie",
+            Name = "Scott Guthrie",
             Email = "scott@microsoft.com",
             PhoneNumber = "12345468",
             Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
@@ -74,11 +77,16 @@
 
     }
 
-    void SelectUser(User selectedUser)
+    PersonDetail PersonComponent;
+        
+    protected override void OnAfterRender()    
     {
-        CurrentUser = selectedUser;
+        PersonComponent.PersonSelected += (User person) =>
+        {
+            Console.WriteLine("Caught event");
+            CurrentUser = person;
+            StateHasChanged();
+        };
     }
-
-
 
 }
