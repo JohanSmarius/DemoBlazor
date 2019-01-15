@@ -1,0 +1,84 @@
+﻿@page "/persons"
+@using Core.Domain
+
+
+<h1>@WelcomeMessage</h1>
+
+
+@foreach (var person in AvailablePersons)
+{
+    <div class="container">
+        <div class="row">
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@person.Picture" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@person.Name</h5>
+                    <p class="card-text">@($"{person.Email} {person.PhoneNumber}")</p>
+                    <button class="btn btn-success" onclick="@(() => SelectUser(person))">Select</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (CurrentUser != null)
+{
+    <div class="container">
+        <div class="row">
+            <label for="name">Name: </label>
+            <input id="name" bind="@CurrentUser.Name"/>
+        </div>
+
+    </div>
+}
+
+<button class="btn btn-primary" onclick="@LoadPersons">Load persons</button>
+
+
+
+@functions {
+
+    string WelcomeMessage = "Welcome DotNED Saturday From Blazor!";
+
+    User CurrentUser { get; set; }
+    //{
+    //    Name = "Scott Hanselman",
+    //    Email = "scott@microsoft.com",
+    //    PhoneNumber = "12345468",
+    //    Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+    //};
+
+    List<User> AvailablePersons = new List<User>();
+
+    void LoadPersons()
+    {
+        AvailablePersons.Clear();
+
+        AvailablePersons.Add(new User()
+        {
+            Name = "Scott Hanselman",
+            Email = "scott@microsoft.com",
+            PhoneNumber = "12345468",
+            Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+        });
+
+        AvailablePersons.Add(new User()
+        {
+            Name = "Scott Gutthrie",
+            Email = "scott@microsoft.com",
+            PhoneNumber = "12345468",
+            Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
+        });
+
+    }
+
+    void SelectUser(User selectedUser)
+    {
+        CurrentUser = selectedUser;
+    }
+
+
+
+}
