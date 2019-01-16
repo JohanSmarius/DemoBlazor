@@ -11,5 +11,7 @@ namespace DemoBlazor.Services
 
         Task LoadPersons();
         List<User> AvailablePersons { get; }
+        Task DeleteLastPerson();
+        Task LoadSavedList();
     }
 }

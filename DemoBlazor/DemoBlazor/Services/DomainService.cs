@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.Storage;
 using Core.Domain;
 using DemoBlazor.Proxy;
 using Microsoft.AspNetCore.Blazor;
@@ -12,12 +13,14 @@ namespace DemoBlazor.Services
     public class DomainService : IDomainService
     {
         private readonly HttpClient _httpClient;
+        private readonly ILocalStorage _localStorage;
 
         public List<User> AvailablePersons { get; private set; } = new List<User>();
 
-        public DomainService(HttpClient httpClient)
+        public DomainService(HttpClient httpClient, ILocalStorage localStorage)
         {
             _httpClient = httpClient;
+            _localStorage = localStorage;
         }
 
 
@@ -43,6 +46,24 @@ namespace DemoBlazor.Services
 
             var serviceResponse = await _httpClient.GetJsonAsync<List<User>>("http://blazortestclient.azurewebsites.net/api/persons");
             AvailablePersons.AddRange(serviceResponse);
+
+            await SaveList();
+        }
+
+        public async Task DeleteLastPerson()
+        {
+            AvailablePersons.RemoveAt(AvailablePersons.Count - 1);
+            await SaveList();
+        }
+
+        public async Task SaveList()
+        {
+            await _localStorage.SetItem("List", AvailablePersons);
+        }
+
+        public async Task LoadSavedList()
+        {
+            AvailablePersons = await _localStorage.GetItem<List<User>>("List");
         }
     }
 }

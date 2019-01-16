@@ -19,18 +19,18 @@ namespace UserService.Controllers
             {
                 new User()
                 {
-                    Name = "Scott Hanselman From Service",
-                    Email = "scott@microsoft.com",
+                    Name = "Daniel Roth",
+                    Email = "daniel@microsoft.com",
                     PhoneNumber = "12345468",
-                    Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+                    Picture = "https://avatars2.githubusercontent.com/u/1874516?s=460&v=4"
                 },
                 new User()
                 {
-                    Name = "Scott Gutthrie From Service",
-                    Email = "scott@microsoft.com",
+                    Name = "Luke Latham",
+                    Email = "luke@microsoft.com",
                     PhoneNumber = "12345468",
                     Picture =
-                        "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
+                        "https://avatars0.githubusercontent.com/u/1622880?s=460&v=4"
                 }
             };
 
