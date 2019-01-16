@@ -2,6 +2,7 @@
 @using Core.Domain
 @using DemoBlazor.Proxy
 @using DemoBlazor.Services
+@using DemoBlazor.JavascriptInterop
 
 @inject IDomainService PersonService
 @inject HttpClient Http
@@ -103,10 +104,15 @@
         AvailablePersons = PersonService.AvailablePersons;
     }
 
-    void DeleteLastPerson()
+    async Task DeleteLastPerson()
     {
-        PersonService.DeleteLastPerson();
-        AvailablePersons = PersonService.AvailablePersons;
+        var confirmed = await JavaScriptInterop.Confirm("Are you sure?");
+        Console.WriteLine(confirmed.ToString());
+        if (confirmed)
+        {
+            await PersonService.DeleteLastPerson();
+            AvailablePersons = PersonService.AvailablePersons;
+        }
     }
 
     async Task LoadLocalPersons()
