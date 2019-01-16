@@ -1,8 +1,10 @@
 ﻿@page "/persons"
 @using Core.Domain
+@using DemoBlazor.Proxy
 @using DemoBlazor.Services
 
 @inject IDomainService PersonService
+@inject HttpClient Http
 
 
 <NavLink class="nav-link" href="/">To Home</NavLink>
@@ -40,62 +42,61 @@
         </div>
     }
 
+
     <button class="btn btn-primary" onclick="@LoadPersons">Load persons</button>
-
-
-
 
 
     @functions {
 
-    string WelcomeMessage = "Welcome DotNED Saturday From Blazor!";
+        string WelcomeMessage = "Welcome DotNED Saturday From Blazor!";
 
-    User CurrentUser { get; set; }
-    //{
-    //    Name = "Scott Hanselman",
-    //    Email = "scott@microsoft.com",
-    //    PhoneNumber = "12345468",
-    //    Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
-    //};
+        User CurrentUser { get; set; }
+        //{
+        //    Name = "Scott Hanselman",
+        //    Email = "scott@microsoft.com",
+        //    PhoneNumber = "12345468",
+        //    Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+        //};
 
-    IReadOnlyList<User> AvailablePersons = new List<User>();
+        List<User> AvailablePersons = new List<User>();
 
-    void LoadPersons()
-    {
-        PersonService.LoadPersons();
-        AvailablePersons = PersonService.AvailablePersons;
-    }
-
-    //    AvailablePersons.Clear();
-
-    //    AvailablePersons.Add(new User()
-    //    {
-    //        Name = "Scott Hanselman",
-    //        Email = "scott@microsoft.com",
-    //        PhoneNumber = "12345468",
-    //        Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
-    //    });
-
-    //    AvailablePersons.Add(new User()
-    //    {
-    //        Name = "Scott Guthrie",
-    //        Email = "scott@microsoft.com",
-    //        PhoneNumber = "12345468",
-    //        Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
-    //    });
-
-    //}
-
-    PersonDetail PersonComponent;
-
-    protected override void OnAfterRender()
-    {
-        PersonComponent.PersonSelected += (User person) =>
+        void LoadPersons()
         {
-            Console.WriteLine("Caught event");
-            CurrentUser = person;
-            StateHasChanged();
-        };
-    }
+            AvailablePersons.AddRange(PersonService.AvailablePersons);
+        }
+
+        PersonDetail PersonComponent;
+
+        protected override void OnAfterRender()
+        {
+            PersonComponent.PersonSelected += (User person) =>
+            {
+                Console.WriteLine("Caught event");
+                CurrentUser = person;
+                StateHasChanged();
+            };
+        }
+
+        protected override async Task OnInitAsync()
+        {
+            AvailablePersons.Add(new User()
+            {
+                Name = "Scott Hanselman",
+                Email = "scott@microsoft.com",
+                PhoneNumber = "12345468",
+                Picture = "https://avatars0.githubusercontent.com/u/2892?s=460&v=4"
+            });
+
+            AvailablePersons.Add(new User()
+            {
+                Name = "Scott Guthrie",
+                Email = "scott@microsoft.com",
+                PhoneNumber = "12345468",
+                Picture = "https://sec.ch9.ms/ch9/e6c4/ea6aa4d2-472a-46c1-a31e-b3d86daee6c4/scottguazurewebsitesendpoints_960.jpg?v=744001bc6a23bbf8533bfb48dc1e9372cfe8dbe985ae55b3f5e950865fce9395"
+            });
+
+
+            await PersonService.LoadPersons();
+        }
 
     }

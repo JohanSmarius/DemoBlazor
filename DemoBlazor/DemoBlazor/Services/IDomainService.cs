@@ -8,8 +8,8 @@ namespace DemoBlazor.Services
 {
     public interface IDomainService
     {
-        List<User> AvailablePersons { get; }
 
-        void LoadPersons();
+        Task LoadPersons();
+        List<User> AvailablePersons { get; }
     }
 }
