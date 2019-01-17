@@ -61,15 +61,21 @@ namespace DemoBlazor.Services
 
         public async Task LoadSavedList()
         {
-            try
+            var hasData = await HasLocalData();
+            Console.WriteLine(hasData.ToString());
+            if (hasData)
             {
+                Console.WriteLine("Will fetch local data");
                 AvailablePersons = await _localStorage.GetItem<List<User>>("List");
+                Console.WriteLine($"Loaded {AvailablePersons.Count}");
             }
-            catch (Exception e)
-            {
-                // Just ignore
-                Console.WriteLine($"Oops {e.Message}");
-            }
+        }
+
+        public async Task<bool> HasLocalData()
+        {
+            var numberOfItems = await _localStorage.Length();
+
+            return numberOfItems > 0;
         }
     }
 }
