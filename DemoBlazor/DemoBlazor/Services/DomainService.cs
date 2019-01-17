@@ -26,8 +26,6 @@ namespace DemoBlazor.Services
 
         public async Task LoadPersons()
         {
-            AvailablePersons.Clear();
-
             //AvailablePersons.Add(new User()
             //{
             //    Name = "Scott Hanselman",
@@ -63,7 +61,15 @@ namespace DemoBlazor.Services
 
         public async Task LoadSavedList()
         {
-            AvailablePersons = await _localStorage.GetItem<List<User>>("List");
+            try
+            {
+                AvailablePersons = await _localStorage.GetItem<List<User>>("List");
+            }
+            catch (Exception e)
+            {
+                // Just ignore
+                Console.WriteLine($"Oops {e.Message}");
+            }
         }
     }
 }

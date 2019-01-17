@@ -3,10 +3,11 @@
 @using DemoBlazor.Proxy
 @using DemoBlazor.Services
 @using DemoBlazor.JavascriptInterop
+@using Microsoft.AspNetCore.Blazor.Services
 
 @inject IDomainService PersonService
 @inject HttpClient Http
-
+@inject IUriHelper UrlHelper
 
 <NavLink class="nav-link" href="/">To Home</NavLink>
 
@@ -24,6 +25,8 @@
                         <h5 class="card-title">@person.Name</h5>
                         <p class="card-text">@($"{person.Email} {person.PhoneNumber}")</p>
                         @*<button class="btn btn-success" onclick="@(() => SelectUser(person))">Select</button>*@
+                        
+                        <button class="btn btn-success" onclick="@(() => OnSelectPerson(person))">To Detail Page</button>
                     </div>
                 </div>
             </div>
@@ -119,6 +122,13 @@
     {
         await PersonService.LoadSavedList();
         AvailablePersons = PersonService.AvailablePersons;
+    }
+
+    void OnSelectPerson(User person)
+    {
+        Console.WriteLine($"/personedit/{person.Id}");
+
+        UrlHelper.NavigateTo($"/personedit/{person.Id}");
     }
 
 }
