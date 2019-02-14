@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication.ExtendedProtection;
 using System.Threading.Tasks;
 using Core.Domain;
 using DemoBlazor.Pages;
-using Microsoft.AspNetCore.Blazor.Components;
+using Microsoft.AspNetCore.Components;
 
 namespace DemoBlazor.Shared
 {
-    public class PersonDetailViewModel : BlazorComponent
+    public class PersonDetailViewModel : ComponentBase
     {
         [Parameter]
         protected User Person { get; set; }
 
         [Parameter]
-        public Action<User> PersonSelected { get; set; }
+        internal Action<User> PersonSelected { get; set; }
 
         protected void SelectPerson()
         {

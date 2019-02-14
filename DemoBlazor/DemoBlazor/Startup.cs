@@ -1,6 +1,5 @@
-using Blazored.Storage;
 using DemoBlazor.Services;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DemoBlazor
@@ -10,11 +9,9 @@ namespace DemoBlazor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDomainService, DomainService>();
-            services.AddLocalStorage();
-
         }
 
-        public void Configure(IBlazorApplicationBuilder app)
+        public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
         }
